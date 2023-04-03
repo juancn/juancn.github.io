@@ -22,7 +22,7 @@ As I said before, a bezier curve is defined by three points. Take a look at the 
 ![How a bezier curve is constructed](/images/2005-07-06-intersecting-quadcurve2d-part-i/bezier-base.jpg)
 
 Here we have two main lines: from $$P_1$$ to $$P_2$$ and from $$P_2$$ to $$P_3$$, the curve is defined by a point in the line $$S_0$$ to $$S_1$$.
-Using the parametric ecuation of the line I mentioned before, we can write $$S_0$$ and $$S_1$$ as:
+Using the parametric equation of the line I mentioned before, we can write $$S_0$$ and $$S_1$$ as:
 
 $$
   S_0(t) = P_1(1-t) + P_2 t
@@ -38,6 +38,6 @@ Simplifying this (hocus phocus... and some mathematical mumbo jumbo) we get:
 
 $$Q(t) = P_1 (1 - t)^2 + P_2 (2t(1-t)) + P_3 (t^2)$$
 
-So finally we have the basic ecuation for a quadratic bezier curve.
+So finally we have the basic equation for a quadratic bezier curve.
 
 (Next [Curve Intersection](/2005/07/20/intersecting-quadcurve2d-part-ii.html))
