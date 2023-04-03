@@ -26,6 +26,7 @@ Using the parametric ecuation of the line I mentioned before, we can write $$S_0
 
 $$
   S_0(t) = P_1(1-t) + P_2 t
+\\
   S_1(t) = P_2 (1-t) + P_3 t
 $$
 
