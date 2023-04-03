@@ -24,11 +24,9 @@ As I said before, a bezier curve is defined by three points. Take a look at the 
 Here we have two main lines: from $$P_1$$ to $$P_2$$ and from $$P_2$$ to $$P_3$$, the curve is defined by a point in the line $$S_0$$ to $$S_1$$.
 Using the parametric equation of the line I mentioned before, we can write $$S_0$$ and $$S_1$$ as:
 
-$$
-  S_0(t) = P_1(1-t) + P_2 t
-\\
-  S_1(t) = P_2 (1-t) + P_3 t
-$$
+$$S_0(t) = P_1(1-t) + P_2 t$$
+
+$$S_1(t) = P_2 (1-t) + P_3 t$$
 
 Then, the point on the bezier curve is defined as:
 
