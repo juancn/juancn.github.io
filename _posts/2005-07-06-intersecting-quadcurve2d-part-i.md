@@ -13,28 +13,30 @@ Quadratic bezier curves are defined by three points: a starting point, a control
 
 Bezier curves are based on the parametric equation of the line, which is of the form:
 
-$$L(t) = P1 (1 - t) + P2 t$$
+$$L(t) = P_1 (1 - t) + P_2 t$$
 
-With t in [0,1]. P1 and P2 are two arbitrary points.
+With $$t$$ in $$[0,1]$$. $$P_1$$ and $$P_2$$ are two arbitrary points.
 
 As I said before, a bezier curve is defined by three points. Take a look at the following diagram:
 
 ![How a bezier curve is constructed](/images/2005-07-06-intersecting-quadcurve2d-part-i/bezier-base.jpg)
 
-Here we have two main lines: from P1 to P2 and from P2 to P3, the curve is defined by a point in the line S0 to S1.
-Using the parametric ecuation of the line I mentioned before, we can write S0 and S1 as:
+Here we have two main lines: from $$P_1$$ to $$P_2$$ and from $$P_2$$ to $$P_3$$, the curve is defined by a point in the line $$S_0$$ to $$S_1$$.
+Using the parametric ecuation of the line I mentioned before, we can write $$S_0$$ and $$S_1$$ as:
 
-$$S0(t) = P1(1-t) + P2 t$$
-$$S1(t) = P2 (1-t) + P3 t$$
+$$
+  S_0(t) = P_1(1-t) + P_2 t
+  S_1(t) = P_2 (1-t) + P_3 t
+$$
 
 Then, the point on the bezier curve is defined as:
 
-$$Q(t) = S0(1-t) + S1 t$$
+$$Q(t) = S_0(1-t) + S_1 t$$
 
 Simplifying this (hocus phocus... and some mathematical mumbo jumbo) we get:
 
-$$Q(t) = P1 (1 - t)^2 + P2 (2t(1-t)) + P3 (t^2)$$
+$$Q(t) = P_1 (1 - t)^2 + P_2 (2t(1-t)) + P_3 (t^2)$$
 
 So finally we have the basic ecuation for a quadratic bezier curve.
 
-(Next [Curve Intersection](/))
+(Next [Curve Intersection](/2005/07/20/intersecting-quadcurve2d-part-ii.html))
