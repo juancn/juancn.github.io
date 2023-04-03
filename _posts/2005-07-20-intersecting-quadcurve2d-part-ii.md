@@ -4,7 +4,7 @@ title:  "Intersecting a QuadCurve2D (Part II)"
 date:   2005-07-20 10:52:33 -0300
 categories: post
 ---
-(continued from [Part One](post/2005/07/06/intersecting-quadcurve2d-part-i.html))
+(continued from [Part One](/post/2005/07/06/intersecting-quadcurve2d-part-i.html))
 
 So far we have the parametric equation of quadratic bezier curve:
 

@@ -38,4 +38,4 @@ $$Q(t) = P_1 (1 - t)^2 + P_2 (2t(1-t)) + P_3 (t^2)$$
 
 So finally we have the basic equation for a quadratic bezier curve.
 
-(Next [Curve Intersection](post/2005/07/20/intersecting-quadcurve2d-part-ii.html))
+(Next [Curve Intersection](/post/2005/07/20/intersecting-quadcurve2d-part-ii.html))
