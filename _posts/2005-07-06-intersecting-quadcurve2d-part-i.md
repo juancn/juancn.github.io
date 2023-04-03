@@ -2,7 +2,7 @@
 layout: post
 title:  "Intersecting a QuadCurve2D (Part I)"
 date:   2005-07-06 13:47:33 -0300
-categories: graphics optimization bezier
+categories: post
 ---
 
 
@@ -38,4 +38,4 @@ $$Q(t) = P_1 (1 - t)^2 + P_2 (2t(1-t)) + P_3 (t^2)$$
 
 So finally we have the basic equation for a quadratic bezier curve.
 
-(Next [Curve Intersection](/2005/07/20/intersecting-quadcurve2d-part-ii.html))
+(Next [Curve Intersection](post/2005/07/20/intersecting-quadcurve2d-part-ii.html))

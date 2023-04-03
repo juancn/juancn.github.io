@@ -2,9 +2,9 @@
 layout: post
 title:  "Intersecting a QuadCurve2D (Part II)"
 date:   2005-07-20 10:52:33 -0300
-categories: graphics optimization bezier
+categories: post
 ---
-(continued from [Part Oone](/2005/07/06/intersecting-quadcurve2d-part-i.html))
+(continued from [Part One](post/2005/07/06/intersecting-quadcurve2d-part-i.html))
 
 So far we have the parametric equation of quadratic bezier curve:
 
@@ -34,7 +34,7 @@ Let's use the top edge as an example, to check if the curve cuts that edge, we m
 That exists a value of $$t$$, such as $$0 <= t <= 1$$ and `c = Qy(t)`
 And that `rect.getX() <= Qx(t) <= rect.getX() + rect.getWidth()` is true for that value of $$t$$
 
-Where `Qx(t)` and `Qy(t)` are the parametric ecuations of the curve for each coordinate:
+Where `Qx(t)` and `Qy(t)` are the parametric equations of the curve for each coordinate:
 
 $$Qx(t) = Px1 (1 - t)^2 + Px2 (2t(1-t)) + Px3 (t^2)$$
 
