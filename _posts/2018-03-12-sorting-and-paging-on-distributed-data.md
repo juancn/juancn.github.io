@@ -19,6 +19,8 @@ This first scenario is usually sharded by having each shard accumulate only valu
 
 The second scenario, that is using an offset and a page size, is much more interesting in my opinion, and there's little literature on how to solve it somewhat efficiently, and this one is the one we will tackle.
 
+If you're starting from scratch, do yourself a favor and **pick the first strategy**, it will save you countless headaches down the road, even if scale is not an issue yet. If on the other hand, you're stuck with option two, keep reading.
+
 # Doing it the hard way 
 
 In the restricted case of an offset/page sort, all page offsets are page size aligned, that is:
@@ -27,9 +29,9 @@ In the restricted case of an offset/page sort, all page offsets are page size al
 pageStartIdx % pageSize == 0
 ```
 
-I’ll focus on the general case, where you want a fixed size page starting at an arbitrary offset into sorted data:
+I’ll focus on the general case, where you want a fixed size page starting at an arbitrary offset into sorted data, if we have:
 
- - `k`: offset into the sorted data as if it were in one place (i.e. large array)
+ - `k`: an offset into the sorted data as if it were in one place (i.e. as if it were large array)
  - `pageSize`: desired page size
 
 Let’s use an example, if the data were in one place (e.g. an array), and you want to go to offset 4 (`k=4`), with a page size of 3 (`pageSize=3`), it’s enough to just slice the sorted array:
