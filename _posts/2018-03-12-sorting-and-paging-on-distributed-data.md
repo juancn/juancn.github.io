@@ -157,9 +157,9 @@ $$ nLeftSum \leq \sum \lfloor \frac{S_i \, k}{totalLen} \rfloor \leq \sum \frac{
 
 which we can simplify:
 
-$$ \sum \frac{S_i \, k}{totalLen} = (\sum S_i) \frac{k}{totalLen} = \frac{totalLen \, k}{totalLen} = k $$
+$$ \sum \frac{S_i \, k}{totalLen} = \frac{k}{totalLen} \sum S_i  = k \frac{totalLen}{totalLen} = k $$
 
-And use as a bound for $$nLeftSum$$:
+And use it as a bound for $$nLeftSum$$:
 
 $$nLeftSum \leq k$$
 
