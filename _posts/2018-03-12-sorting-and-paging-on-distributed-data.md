@@ -17,7 +17,7 @@ There are two ways to model apis to request a page:
 The first case is relatively easy to distribute, and is the kind of strategy (with variations) that most sane large scale applications use.
 This first scenario is usually sharded by having each shard accumulate only values after `r` in `pageSize` sized priority queues, and then sending each to a coordinator node so they're merged and any extra data is discarded (there are optimizations where you can build a tree of aggregations to reduce total traffic and distribute merging somewhat if you have many nodes).
 
-The second scenario, that is using an offset and a page size, is much more interesting in my opinion, and there's little literature on how to solve it somewhat efficiently, and this one is the one we will tackle.
+The second scenario (using an offset and a page size) is much more interesting in my opinion and there's little to none literature on how to solve it efficiently. This is the one is the one we will tackle in this article.
 
 If you're starting from scratch, do yourself a favor and **pick the first strategy**, it will save you countless headaches down the road, even if scale is not an issue yet. If on the other hand, you're stuck with option two, keep reading.
 
