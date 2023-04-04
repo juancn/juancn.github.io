@@ -191,3 +191,173 @@ Essentially transferring most of the data to the coordinator.
 
 On the other hand, if the shards are mostly randomly distributed, the amount of data shipped is on the order of `nShards*pageSize`.
 
+# Implementation
+
+The following is a simple implementation of the basic concepts of the algorithm:
+
+
+```java
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class DistributedSort {
+    /**
+     * Window bounds
+     *
+     * @param <K> key type
+     */
+    static class Bounds<K extends Comparable<K>> {
+        final K low;
+        final K high;
+
+        Bounds(K low, K high) {
+            this.low = low;
+            this.high = high;
+        }
+    }
+
+    /**
+     * The resulting local window
+     *
+     * @param <K> key type
+     */
+    static class LocalWindow<K extends Comparable<K>> {
+        final int nLeft;
+        final List<K> windowElements;
+
+        LocalWindow(int nLeft, List<K> windowElements) {
+            this.nLeft = nLeft;
+            this.windowElements = windowElements;
+        }
+    }
+
+    /**
+     * State of a shard for a single sort operation
+     *
+     * @param <K> key type
+     */
+    static class Shard<K extends Comparable<K>> {
+        final List<K> data;
+        int minKeyOff = -1;
+        int maxKeyOff = -1;
+
+        Shard(List<K> data) {
+            this.data = data;
+        }
+
+        int sortAndFilter() {
+            // We just sort the shard's data
+            data.sort(Comparator.naturalOrder());
+            return data.size();
+        }
+
+        Bounds<K> getLocalWindowBounds(int k, int pageSize, int totalLen) {
+            minKeyOff = max(0, (k * data.size()) / totalLen);
+            maxKeyOff = min(minKeyOff + pageSize, data.size() - 1);
+            return new Bounds<>(data.get(minKeyOff), data.get(maxKeyOff));
+        }
+
+        public LocalWindow<K> getResult(K minKey, K maxKey) {
+            // Expand local window to the left
+            while (minKeyOff > 0 && data.get(minKeyOff - 1).compareTo(minKey) >= 0) {
+                --minKeyOff;
+            }
+            // Expand local window to the right
+            while (maxKeyOff + 1 < data.size() && data.get(maxKeyOff + 1).compareTo(maxKey) <= 0) {
+                ++maxKeyOff;
+            }
+            return new LocalWindow<>(minKeyOff, copyOfRange(data, minKeyOff, maxKeyOff + 1));
+        }
+    }
+
+    /**
+     * The coordinator's state for a single sort operation
+     *
+     * @param <K> key type
+     */
+    static class Coordinator<K extends Comparable<K>> {
+        final List<Shard<K>> shards;
+
+        Coordinator(List<Shard<K>> shards) {
+            this.shards = shards;
+        }
+
+        /**
+         * Sort entry point. This method simulates the communication with the shards.
+         * It does not introduce parallelism for clarity, calls in each round can be issued
+         * in parallel, only synchronizing when processing results.
+         *
+         * @param k        start offset
+         * @param pageSize desired page size
+         * @return the sorted page
+         */
+        List<K> sortedPage(int k, int pageSize) {
+            // Round one, how much data is there, trigger the sort
+            final int totalLen = shards.stream()
+                    .mapToInt(Shard::sortAndFilter)
+                    .sum();
+
+            // Round two, find global window bounds
+            K minKey = null, maxKey = null;
+            for (Shard<K> shard : shards) {
+                final Bounds<K> localWindow = shard.getLocalWindowBounds(k, pageSize, totalLen);
+                if (minKey == null || localWindow.low.compareTo(minKey) < 0) {
+                    minKey = localWindow.low;
+                }
+                if (maxKey == null || localWindow.high.compareTo(maxKey) > 0) {
+                    maxKey = localWindow.high;
+                }
+            }
+
+            // Round three, merge results
+            final List<K> merged = new ArrayList<>();
+            int nLeftSum = 0;
+            for (Shard<K> shard : shards) {
+                LocalWindow<K> localWindow = shard.getResult(minKey, maxKey);
+                nLeftSum += localWindow.nLeft;
+                // We'll do a simple add and sort for simplicity,
+                // a mergeSort style merge would be better
+                merged.addAll(localWindow.windowElements);
+            }
+            merged.sort(Comparator.naturalOrder());
+
+            return copyOfRange(merged,
+                    k - nLeftSum,
+                    min(k - nLeftSum + pageSize, merged.size()));
+        }
+    }
+
+    private static <K> List<K> copyOfRange(List<K> list, int fromInclusive, int toExclusive) {
+        return new ArrayList<>(list.subList(fromInclusive, toExclusive));
+    }
+
+    public static void main(String[] args) {
+        Coordinator<String> c;
+        List<String> page;
+
+        // Example 1
+        c = new Coordinator<>(List.of(
+                new Shard<>(new ArrayList<>(List.of("A", "B", "C", "D", "E"))),
+                new Shard<>(new ArrayList<>(List.of("A", "D", "D", "E", "F")))
+        ));
+
+        page = c.sortedPage(4, 3);
+        System.out.println("Example 1: " + page);
+
+        // Example 2
+        c = new Coordinator<>(List.of(
+                new Shard<>(new ArrayList<>(List.of("A", "B", "C", "D", "E"))),
+                new Shard<>(new ArrayList<>(List.of("F", "G", "H", "I", "J"))),
+                new Shard<>(new ArrayList<>(List.of("K", "L", "M", "N", "O")))
+        ));
+
+        page = c.sortedPage(6, 2);
+        System.out.println("Example 2: " + page);
+    }
+}
+```
+
