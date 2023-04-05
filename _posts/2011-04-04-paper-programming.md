@@ -11,7 +11,7 @@ When I was a kid, all I wanted was a computer. Finally when I was twelve I made 
 
 We bought a "Segundamano" (lit. second hand) magazine and found a used one for U$S 200. My dad contacted the seller and we went to pick it up.
 
-You have to keep in mind that this was 1989 and the social and economic landscape in [Argentina was a mess](http://en.wikipedia.org/wiki/1989_riots_in_Argentina). That year the [inflation rate was over 3000%](http://www.wolframalpha.com/input/?i=argentina+inflation+1989) (it is not a typo) and those 200 dollars was a lot of money, so my dad really made an effort.
+You have to keep in mind that this was 1989 and the social and economic landscape in [Argentina was a mess](http://en.wikipedia.org/wiki/1989_riots_in_Argentina). That year the [inflation rate was over 3000%](http://www.wolframalpha.com/input/?i=argentina+inflation+1989) (it is not a typo) and those 200 dollars were a lot of money, so my dad really made an effort.
 
 If you are still paying attention, you might have noticed that I never mentioned a [Datasette](http://en.wikipedia.org/wiki/Commodore_Datasette) nor a disk drive. All I got was a Commodore 64, plain and simple. But this was not going to stop me.
 

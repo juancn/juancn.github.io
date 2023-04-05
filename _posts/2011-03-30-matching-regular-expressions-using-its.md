@@ -23,8 +23,8 @@ Some examples will make this clearer:
  - The expression 'a' will only match the character 'a'. Similarly 'b' will only match 'b'. If we combine them by sequencing 'ab' will match 'ab'.
  - The expression 'a\|b' will match either 'a' or 'b'.
  - If we combine sequencing with alternation as in '(a\|b)(a\|b)' (the parenthesis are clarifying), it will match: 'aa', 'ab', 'ba' or 'bb'.
- - Kleene's star as mentioned before matches zero or more of the preceding subexpression. So the expression 'a*' will match: '', 'a', 'aa', 'aaa', 'aaaa', ...
- - We can do more complex combinations, such as 'ab*(c\|ε)' that will match things like: 'a', 'ab', 'ac', 'abc', 'abb', 'abbc', ... that is any string starting with an 'a' followed by zero or more 'b''s and optionally ending in a 'c'.
+ - Kleene's star as mentioned before matches zero or more of the preceding subexpression. So the expression 'a\*' will match: '', 'a', 'aa', 'aaa', 'aaaa', ...
+ - We can do more complex combinations, such as 'ab\*(c\|ε)' that will match things like: 'a', 'ab', 'ac', 'abc', 'abb', 'abbc', ... that is any string starting with an 'a' followed by zero or more 'b''s and optionally ending in a 'c'.
 
 Typical implementations of regular expression matchers convert the regular expression to an NFA or a DFA (which are a kind of [finite state machine](http://en.wikipedia.org/wiki/Finite_state_machine)).
 
@@ -42,7 +42,7 @@ As usual, some examples will (hopefully) help clarify things:
  - The expression 'foo' derived with respect to 'f' yields the expression: 'oo' (which is what's left to match).
  - The expression 'ab\|ba' derived with respect to 'a', yields the expression: 'b'
     Similarly, the expression 'ab\|ba' derived with respect to 'b', yields the expression: 'a'
- - The expression '(ab\|ba)*' derived with respect to 'a', yields the expression: 'b(ab\|ba)*'
+ - The expression '(ab\|ba)\*' derived with respect to 'a', yields the expression: 'b(ab\|ba)\*'
 
 As we explore this notion, we will work a RegEx class. The skeleton of this class looks like this:
 ```java
@@ -124,7 +124,7 @@ Taking these details into account, we can build two factory methods, one interna
         };
     }
 ```
-The internal one alt0 includes the first two simplification rules, the public one is user-facing. That is, it has to let you build something like: 'ab*(c|ε)'.
+The internal one alt0 includes the first two simplification rules, the public one is user-facing. That is, it has to let you build something like: 'ab\*(c|ε)'.
 
 Finally, the repetition operator (Kleene's star) has the following simplification rules:
 
@@ -177,7 +177,7 @@ Suppose that we want to check if the expression 'ab\*(c\|ε)' matches the empty 
 6. `seq(∅,ε)`
 7. `∅`
 
-We get the null/unmatchable expression as a result. This means that the expression 'ab*(c\|ε)' does not match the empty string.
+We get the null/unmatchable expression as a result. This means that the expression 'ab\*(c\|ε)' does not match the empty string.
 If on the other hand we apply the reduction on **'a\*\|b'**:
 
 
@@ -208,7 +208,7 @@ The fourth rule is a bit more involved, but trust me, it works.
 
 The fifth rule states that the derivative of an alternation is the alternation of the derivatives (suitably simplified).
 
-And the last one, describes how to derive a repetition. For example D('(ba)*', 'b') yields 'a(ba)*'.
+And the last one, describes how to derive a repetition. For example D('(ba)\*', 'b') yields 'a(ba)\*'.
 
 We now have enough information to implement the simplify and derive.
 
