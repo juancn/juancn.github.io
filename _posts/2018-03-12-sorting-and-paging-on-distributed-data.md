@@ -41,7 +41,7 @@ Let’s use an example, if the data were in one place (e.g. an array), and you w
 Or in pseudo-code:
 
 ```java
-copyOfRange(data, k, min(k + pageSize, length(data))
+copyOfRange(data, k, min(k + pageSize, length(data)))
 ```
 
 The function returns a new array and it has the following signature: 
